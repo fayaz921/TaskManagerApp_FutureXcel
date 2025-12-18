@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagerApp_FutureXcel", "TaskManagerApp_FutureXcel\TaskManagerApp_FutureXcel.csproj", "{B299D530-6212-4451-B56F-CB8B717509FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B299D530-6212-4451-B56F-CB8B717509FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B299D530-6212-4451-B56F-CB8B717509FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B299D530-6212-4451-B56F-CB8B717509FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B299D530-6212-4451-B56F-CB8B717509FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C41CFF02-BEAE-4C2C-8CF5-79D2AB3BE8AF}
+	EndGlobalSection
+EndGlobal
