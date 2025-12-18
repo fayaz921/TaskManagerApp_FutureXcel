@@ -37,12 +37,40 @@
         });
     });
 
+    // UPDATE TASK
+    $('#updateTask').click(function () {
+        let updatedTask = {
+            id: $('#taskId').val(),
+            title: $('#title').val(),
+            description: $('#description').val(),
+            status: $('#status').val(),
+            dueDate: $('#dueDate').val() || null
+        };
+
+        if (updatedTask.title.trim() === '') {
+            showToast('Title is required', 'danger');
+            return;
+        }
+
+        $.ajax({
+            url: '/api/tasks/' + updatedTask.id,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(updatedTask),
+            success: function () {
+                clearForm();
+                loadTasks();
+                showToast('Task updated successfully!');
+            },
+            error: function () {
+                showToast('Error updating task', 'danger');
+            }
+        });
+    });
+
     // CANCEL EDIT
     $('#cancelEdit').click(function () {
         clearForm();
-        $('#updateTask').remove();
-        $('#saveTask').removeClass('d-none');
-        $('#cancelEdit').addClass('d-none');
     });
 
 });
@@ -68,7 +96,6 @@ function loadTasks() {
                 `;
             });
             $('#taskTable').html(rows);
-            // Animate rows
             $('.table-row').each(function (i) {
                 $(this).delay(50 * i).animate({ opacity: 1 }, 300);
             });
@@ -92,43 +119,8 @@ function editTask(id) {
             $('#dueDate').val(task.dueDate ? task.dueDate.split('T')[0] : '');
 
             $('#saveTask').addClass('d-none');
+            $('#updateTask').removeClass('d-none');
             $('#cancelEdit').removeClass('d-none');
-            $('#updateTask').remove();
-
-            $('.card-body').append('<button class="btn btn-success" id="updateTask">Update Task</button>');
-
-            $('#updateTask').click(function () {
-                let updatedTask = {
-                    id: $('#taskId').val(),
-                    title: $('#title').val(),
-                    description: $('#description').val(),
-                    status: $('#status').val(),
-                    dueDate: $('#dueDate').val() || null
-                };
-
-                if (updatedTask.title.trim() === '') {
-                    showToast('Title is required', 'danger');
-                    return;
-                }
-
-                $.ajax({
-                    url: '/api/tasks/' + updatedTask.id,
-                    type: 'PUT',
-                    contentType: 'application/json',
-                    data: JSON.stringify(updatedTask),
-                    success: function () {
-                        clearForm();
-                        loadTasks();
-                        $('#updateTask').remove();
-                        $('#saveTask').removeClass('d-none');
-                        $('#cancelEdit').addClass('d-none');
-                        showToast('Task updated successfully!');
-                    },
-                    error: function () {
-                        showToast('Error updating task', 'danger');
-                    }
-                });
-            });
         },
         error: function () {
             showToast('Error fetching task', 'danger');
@@ -160,4 +152,18 @@ function clearForm() {
     $('#description').val('');
     $('#status').val('Pending');
     $('#dueDate').val('');
+
+    // Reset buttons
+    $('#saveTask').removeClass('d-none');
+    $('#updateTask').addClass('d-none');
+    $('#cancelEdit').addClass('d-none');
+}
+
+function getStatusText(status) {
+    switch (status) {
+        case 'Pending': return 'Pending';
+        case 'InProgress': return 'In Progress';
+        case 'Completed': return 'Completed';
+        default: return '';
+    }
 }
