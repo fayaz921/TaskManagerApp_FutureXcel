@@ -21,11 +21,16 @@ namespace TaskManagerApp_FutureXcel.Controllers
         public async Task<IActionResult> CreateTask(TaskItem task)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                // return detailed ModelState errors
+                var errors = ModelState.SelectMany(x => x.Value.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+                return BadRequest(new { message = "ModelState invalid", errors });
+            }
 
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction(nameof(GetTaskById), new { id = task.Id }, task);
         }
 
@@ -60,7 +65,12 @@ namespace TaskManagerApp_FutureXcel.Controllers
                 return BadRequest("Task ID mismatch");
 
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                var errors = ModelState.SelectMany(x => x.Value.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+                return BadRequest(new { message = "ModelState invalid", errors });
+            }
 
             var existingTask = await _context.Tasks.FindAsync(id);
 
@@ -91,6 +101,7 @@ namespace TaskManagerApp_FutureXcel.Controllers
 
             return NoContent();
         }
+
 
 
     }
